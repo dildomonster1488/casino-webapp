@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 Casino Mini App</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="header">
+            <h1>🎰 CASINO</h1>
+            <div class="balance">
+                💰 <span id="balance">10000</span> монет
+            </div>
+        </div>
+
+        <!-- Экран слотов -->
+        <div id="slots-screen" class="game-screen">
+            <div class="slots-display">
+                <div class="slot" id="slot1">🍒</div>
+                <div class="slot" id="slot2">🍒</div>
+                <div class="slot" id="slot3">🍒</div>
+            </div>
+            
+            <div class="bet-controls">
+                <label>Ставка:</label>
+                <input type="number" id="slot-bet" min="10" max="10000" value="100">
+                <div class="quick-bets">
+                    <button onclick="setBet(50)">50</button>
+                    <button onclick="setBet(100)">100</button>
+                    <button onclick="setBet(500)">500</button>
+                    <button onclick="setBet(1000)">1000</button>
+                </div>
+            </div>
+            
+            <button class="spin-btn" onclick="spinSlots()">
+                🎰 КРУТИТЬ
+            </button>
+            
+            <div id="slot-result" class="result"></div>
+        </div>
+
+        <!-- Экран костей -->
+        <div id="dice-screen" class="game-screen" style="display:none;">
+            <div class="dice-display">
+                <div class="dice" id="dice">🎲</div>
+            </div>
+            
+            <div class="dice-bet-type">
+                <button class="dice-type-btn active" onclick="setDiceType('high')">⬆️ Больше 3 (x1.5)</button>
+                <button class="dice-type-btn" onclick="setDiceType('low')">⬇️ Меньше 4 (x1.5)</button>
+                <button class="dice-type-btn" onclick="setDiceType('exact')">🎯 Ровно 6 (x5)</button>
+            </div>
+            
+            <div class="bet-controls">
+                <label>Ставка:</label>
+                <input type="number" id="dice-bet" min="10" max="10000" value="100">
+                <div class="quick-bets">
+                    <button onclick="setDiceBet(50)">50</button>
+                    <button onclick="setDiceBet(100)">100</button>
+                    <button onclick="setDiceBet(500)">500</button>
+                    <button onclick="setDiceBet(1000)">1000</button>
+                </div>
+            </div>
+            
+            <button class="roll-btn" onclick="rollDice()">
+                🎲 БРОСИТЬ КУБИК
+            </button>
+            
+            <div id="dice-result" class="result"></div>
+        </div>
+
+        <!-- Нижнее меню -->
+        <div class="bottom-nav">
+            <button class="nav-btn active" onclick="showScreen('slots')">🎰 Слоты</button>
+            <button class="nav-btn" onclick="showScreen('dice')">🎲 Кости</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
