@@ -1,81 +1,70 @@
 cat > app.js << 'EOF'
-// Ждём загрузки Telegram WebApp
-window.addEventListener('load', function() {
-    initApp();
-});
-
 let balance = 10000;
 let diceType = 'high';
-let tg = null;
+let isInTelegram = false;
 
+// Определяем где запущено приложение
+if (typeof window !== 'undefined' && window.Telegram && window.Telegram.WebApp) {
+    isInTelegram = true;
+}
+
+// Инициализация
 function initApp() {
-    // Проверяем что Telegram WebApp доступен
-    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-        tg = Telegram.WebApp;
+    if (isInTelegram) {
+        const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
         
-        // Запрашиваем баланс у бота
+        // Показываем загрузку
+        document.getElementById('balance').textContent = '...';
+        
+        // Запрашиваем баланс
         tg.sendData(JSON.stringify({
             action: 'get_balance',
             amount: 0
         }));
-        
-        // Слушаем ответ от бота
-        tg.onEvent('webAppDataReceived', function(eventData) {
-            if (eventData && eventData.data) {
-                try {
-                    const response = JSON.parse(eventData.data);
-                    if (response.balance !== undefined) {
-                        balance = parseInt(response.balance);
-                        updateBalance();
-                    }
-                } catch(e) {
-                    console.log('Parse error:', e);
-                }
-            }
-        });
-    }
-    
-    // Если не в Telegram (тест в браузере) - используем localStorage
-    if (!tg) {
-        const savedBalance = localStorage.getItem('casino_balance');
-        if (savedBalance) {
-            balance = parseInt(savedBalance);
+    } else {
+        // Тест в браузере
+        const saved = localStorage.getItem('casino_balance');
+        if (saved) {
+            balance = parseInt(saved);
         }
-        updateBalance();
+        updateBalanceDisplay();
     }
 }
 
-function saveBalance() {
-    if (tg) {
-        // Отправляем боту
-        tg.sendData(JSON.stringify({
+// Запускаем при загрузке
+window.addEventListener('load', initApp);
+
+function updateBalanceDisplay() {
+    document.getElementById('balance').textContent = balance;
+}
+
+function syncBalance() {
+    if (isInTelegram) {
+        window.Telegram.WebApp.sendData(JSON.stringify({
             action: 'update_balance',
             amount: balance
         }));
     } else {
-        // Сохраняем локально для тестов
         localStorage.setItem('casino_balance', balance);
     }
 }
 
 function validateBet(input) {
     const bet = parseInt(input.value);
-    if (bet < 10) input.value = 10;
+    if (isNaN(bet) || bet < 10) input.value = 10;
     if (bet > balance) input.value = balance;
 }
 
 function setBet(amount) {
     const input = document.getElementById('slot-bet');
     input.value = amount;
-    validateBet(input);
 }
 
 function setDiceBet(amount) {
     const input = document.getElementById('dice-bet');
     input.value = amount;
-    validateBet(input);
 }
 
 function setDiceType(type) {
@@ -98,10 +87,6 @@ function showScreen(screen) {
     } else {
         document.getElementById('nav-dice').classList.add('active');
     }
-}
-
-function updateBalance() {
-    document.getElementById('balance').textContent = balance;
 }
 
 function showResult(elementId, message, isWin) {
@@ -133,7 +118,7 @@ async function spinSlots() {
     
     spinBtn.disabled = true;
     balance -= bet;
-    updateBalance();
+    updateBalanceDisplay();
     
     // Анимация
     for (let i = 0; i < 10; i++) {
@@ -160,7 +145,7 @@ async function spinSlots() {
         if (r1 === '7️⃣') mult = 10;
         if (r1 === '💎') mult = 15;
         winAmount = bet * mult;
-        message = '🎉 ДЖЕКПОТ! x' + mult + ' 🎉\nВыигрыш: ' + winAmount + ' монет';
+        message = '🎉 ДЖЕКПОТ! x' + mult + '\nВыигрыш: ' + winAmount + ' монет';
     } else if (r1 === r2 || r2 === r3 || r1 === r3) {
         winAmount = Math.floor(bet * 1.5);
         message = '✅ Два совпадения! x1.5\nВыигрыш: ' + winAmount + ' монет';
@@ -169,8 +154,8 @@ async function spinSlots() {
     }
     
     balance += winAmount;
-    updateBalance();
-    saveBalance();
+    updateBalanceDisplay();
+    syncBalance();
     showResult('slot-result', message, winAmount > 0);
     spinBtn.disabled = false;
 }
@@ -192,7 +177,7 @@ async function rollDice() {
     
     rollBtn.disabled = true;
     balance -= bet;
-    updateBalance();
+    updateBalanceDisplay();
     
     const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
     
@@ -222,11 +207,12 @@ async function rollDice() {
         message += '😔 Не угадали!\nПроигрыш: ' + bet + ' монет';
     }
     
-    updateBalance();
-    saveBalance();
+    updateBalanceDisplay();
+    syncBalance();
     showResult('dice-result', message, win);
     rollBtn.disabled = false;
 }
 
-updateBalance();
+// Показываем баланс сразу
+updateBalanceDisplay();
 EOF
