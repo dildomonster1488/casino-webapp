@@ -11,34 +11,10 @@ body {
     min-height: 100vh;
     color: white;
     overflow-x: hidden;
-}
-
-.background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     background: url('back.png') center/cover no-repeat;
     background-position: center top;
     background-size: cover;
     background-attachment: fixed;
-    z-index: -1;
-}
-
-/* Для разных экранов подстраиваем фон */
-@media (max-width: 568px) {
-    .background {
-        background-size: 100% auto;
-        background-position: center top;
-    }
-}
-
-@media (min-width: 569px) {
-    .background {
-        background-size: cover;
-        background-position: center;
-    }
 }
 
 .container {
@@ -46,34 +22,35 @@ body {
     margin: 0 auto;
     padding: 15px;
     min-height: 100vh;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
 }
 
 .header {
     text-align: center;
     padding: 15px 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    margin-bottom: 10px;
 }
 
 .header h1 {
     font-size: 28px;
     margin-bottom: 10px;
     color: #ff8c00;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
 }
 
 .balance {
     font-size: 18px;
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(255, 140, 0, 0.3);
     padding: 10px 20px;
     border-radius: 20px;
     display: inline-block;
     border: 1px solid #ff8c00;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 .slots-frame {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     border: 3px solid #ff8c00;
     border-radius: 20px;
     padding: 20px;
@@ -100,20 +77,10 @@ body {
     box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
 }
 
-.slot.spinning {
-    animation: slotSpin 0.1s infinite;
-}
-
-@keyframes slotSpin {
-    0% { transform: translateY(-5px); }
-    50% { transform: translateY(5px); }
-    100% { transform: translateY(-5px); }
-}
-
 .dice-display {
     text-align: center;
     margin: 20px 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     border: 3px solid #ff8c00;
     border-radius: 20px;
     padding: 30px;
@@ -124,19 +91,12 @@ body {
     display: inline-block;
 }
 
-.dice.rolling {
-    animation: diceRoll 0.1s infinite;
-}
-
-@keyframes diceRoll {
-    0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.2); }
-    100% { transform: rotate(360deg) scale(1); }
-}
-
 .bet-controls {
     margin: 15px 0;
     text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 15px;
 }
 
 .bet-controls label {
@@ -144,6 +104,7 @@ body {
     margin-bottom: 8px;
     color: #ff8c00;
     font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 .bet-controls input {
@@ -151,7 +112,7 @@ body {
     padding: 12px;
     font-size: 20px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     border: 2px solid #ff8c00;
     border-radius: 10px;
     color: white;
@@ -167,7 +128,7 @@ body {
 
 .quick-bets button {
     padding: 8px 14px;
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(255, 140, 0, 0.3);
     border: 1px solid #ff8c00;
     border-radius: 8px;
     color: #ff8c00;
@@ -177,7 +138,7 @@ body {
 }
 
 .quick-bets button:active {
-    background: rgba(255, 140, 0, 0.5);
+    background: rgba(255, 140, 0, 0.6);
     transform: scale(0.95);
 }
 
@@ -193,7 +154,7 @@ body {
     cursor: pointer;
     margin: 12px 0;
     box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .spin-btn:active, .roll-btn:active {
@@ -212,6 +173,9 @@ body {
     flex-direction: column;
     gap: 8px;
     margin: 15px 0;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 15px;
+    border-radius: 15px;
 }
 
 .dice-type-btn {
@@ -227,10 +191,6 @@ body {
 
 .dice-type-btn.active {
     border-color: #ff8c00;
-    background: rgba(255, 140, 0, 0.2);
-}
-
-.dice-type-btn:active {
     background: rgba(255, 140, 0, 0.3);
 }
 
@@ -243,25 +203,19 @@ body {
     font-weight: bold;
     min-height: 45px;
     word-wrap: break-word;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .result.win {
-    background: rgba(0, 200, 0, 0.3);
+    background: rgba(0, 150, 0, 0.5);
     border: 2px solid #00ff00;
     color: #00ff00;
-    animation: winPulse 0.5s ease-in-out;
 }
 
 .result.lose {
-    background: rgba(200, 0, 0, 0.3);
+    background: rgba(150, 0, 0, 0.5);
     border: 2px solid #ff0000;
     color: #ff6666;
-}
-
-@keyframes winPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
 }
 
 .bottom-nav {
@@ -269,10 +223,8 @@ body {
     gap: 10px;
     margin-top: 15px;
     padding: 10px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 15px;
-    position: sticky;
-    bottom: 10px;
 }
 
 .nav-btn {
@@ -290,14 +242,9 @@ body {
 .nav-btn.active {
     border-color: #ff8c00;
     color: #ff8c00;
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(255, 140, 0, 0.3);
 }
 
-.nav-btn:active {
-    transform: scale(0.95);
-}
-
-/* Адаптация под маленькие экраны */
 @media (max-width: 360px) {
     .slot {
         width: 80px;
