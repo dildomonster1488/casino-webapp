@@ -1,0 +1,11 @@
+{
+  "name": "casino-webapp",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "serve .",
+    "build": "echo 'Build complete'"
+  },
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
+}
