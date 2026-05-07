@@ -1,4 +1,3 @@
-cd ~/casino_bot/web
 cat > index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="ru">
@@ -6,14 +5,13 @@ cat > index.html << 'EOF'
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>BOBER SLOTS</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_new.css?v=2">
 </head>
 <body>
-    <div class="background"></div>
     <div class="container">
         <div class="header">
             <h1>🦫 BOBER SLOTS</h1>
-            <div class="balance">💰 <span id="balance">---</span> монет</div>
+            <div class="balance">💰 <span id="balance">10000</span> монет</div>
         </div>
 
         <div id="slots-screen">
@@ -26,7 +24,7 @@ cat > index.html << 'EOF'
             </div>
             <div class="bet-controls">
                 <label>Ставка:</label>
-                <input type="number" id="slot-bet" min="10" value="100" onchange="validateBet(this)">
+                <input type="number" id="slot-bet" min="10" value="100">
                 <div class="quick-bets">
                     <button onclick="setBet(50)">50</button>
                     <button onclick="setBet(100)">100</button>
@@ -49,7 +47,7 @@ cat > index.html << 'EOF'
             </div>
             <div class="bet-controls">
                 <label>Ставка:</label>
-                <input type="number" id="dice-bet" min="10" value="100" onchange="validateBet(this)">
+                <input type="number" id="dice-bet" min="10" value="100">
                 <div class="quick-bets">
                     <button onclick="setDiceBet(50)">50</button>
                     <button onclick="setDiceBet(100)">100</button>
@@ -67,7 +65,7 @@ cat > index.html << 'EOF'
         </div>
     </div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="app.js"></script>
+    <script src="app_new.js?v=2"></script>
 </body>
 </html>
 EOF
